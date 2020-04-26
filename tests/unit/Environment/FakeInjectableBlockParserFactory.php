@@ -13,16 +13,17 @@ namespace League\CommonMark\Tests\Unit\Environment;
 
 use League\CommonMark\Configuration\ConfigurationAwareInterface;
 use League\CommonMark\Environment\EnvironmentAwareInterface;
-use League\CommonMark\Parser\Block\BlockParserInterface;
-use League\CommonMark\Parser\ContextInterface;
+use League\CommonMark\Parser\Block\BlockParserFactoryInterface;
+use League\CommonMark\Parser\Block\BlockStart;
+use League\CommonMark\Parser\Block\DocParserStateInterface;
 use League\CommonMark\Parser\Cursor;
 
-final class FakeInjectableBlockParser implements BlockParserInterface, ConfigurationAwareInterface, EnvironmentAwareInterface
+final class FakeInjectableBlockParserFactory implements BlockParserFactoryInterface, ConfigurationAwareInterface, EnvironmentAwareInterface
 {
     use FakeInjectableTrait;
 
-    public function parse(ContextInterface $context, Cursor $cursor): bool
+    public function tryStart(Cursor $cursor, DocParserStateInterface $parserState): ?BlockStart
     {
-        return false;
+        return BlockStart::none();
     }
 }

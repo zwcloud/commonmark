@@ -23,7 +23,7 @@ final class TableExtension implements ExtensionInterface
     public function register(ConfigurableEnvironmentInterface $environment): void
     {
         $environment
-            ->addBlockParser(new TableParser())
+            ->addBlockParserFactory(new TableParserFactory())
 
             ->addBlockRenderer(Table::class, new TableRenderer())
             ->addBlockRenderer(TableSection::class, new TableSectionRenderer())

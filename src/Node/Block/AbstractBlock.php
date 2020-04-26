@@ -15,8 +15,6 @@
 namespace League\CommonMark\Node\Block;
 
 use League\CommonMark\Node\Node;
-use League\CommonMark\Parser\ContextInterface;
-use League\CommonMark\Parser\Cursor;
 
 /**
  * Block-level element
@@ -31,16 +29,6 @@ abstract class AbstractBlock extends Node
      * @var array<string, mixed>
      */
     public $data = [];
-
-    /**
-     * @var bool
-     */
-    protected $open = true;
-
-    /**
-     * @var bool
-     */
-    protected $lastLineBlank = false;
 
     /**
      * @var int
@@ -60,45 +48,6 @@ abstract class AbstractBlock extends Node
 
         parent::setParent($node);
     }
-
-    public function isContainer(): bool
-    {
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasChildren(): bool
-    {
-        return $this->firstChild !== null;
-    }
-
-    /**
-     * Returns true if this block can contain the given block as a child node
-     *
-     * @param AbstractBlock $block
-     *
-     * @return bool
-     */
-    abstract public function canContain(AbstractBlock $block): bool;
-
-    /**
-     * Whether this is a code block
-     *
-     * Code blocks are extra-greedy - they'll try to consume all subsequent
-     * lines of content without calling matchesNextLine() each time.
-     *
-     * @return bool
-     */
-    abstract public function isCode(): bool;
-
-    /**
-     * @param Cursor $cursor
-     *
-     * @return bool
-     */
-    abstract public function matchesNextLine(Cursor $cursor): bool;
 
     /**
      * @param int $startLine
@@ -141,67 +90,6 @@ abstract class AbstractBlock extends Node
     public function getEndLine(): int
     {
         return $this->endLine;
-    }
-
-    /**
-     * Whether the block ends with a blank line
-     *
-     * @return bool
-     */
-    public function endsWithBlankLine(): bool
-    {
-        return $this->lastLineBlank;
-    }
-
-    public function setLastLineBlank(bool $blank): void
-    {
-        $this->lastLineBlank = $blank;
-    }
-
-    /**
-     * Determines whether the last line should be marked as blank
-     *
-     * @param Cursor $cursor
-     * @param int    $currentLineNumber
-     *
-     * @return bool
-     */
-    public function shouldLastLineBeBlank(Cursor $cursor, int $currentLineNumber): bool
-    {
-        return $cursor->isBlank();
-    }
-
-    /**
-     * Whether the block is open for modifications
-     *
-     * @return bool
-     */
-    public function isOpen(): bool
-    {
-        return $this->open;
-    }
-
-    /**
-     * Finalize the block; mark it closed for modification
-     *
-     * @param ContextInterface $context
-     * @param int              $endLineNumber
-     *
-     * @return void
-     */
-    public function finalize(ContextInterface $context, int $endLineNumber): void
-    {
-        if (!$this->open) {
-            return;
-        }
-
-        $this->open = false;
-        $this->endLine = $endLineNumber;
-
-        // This should almost always be true
-        if ($context->getTip() !== null) {
-            $context->setTip($context->getTip()->parent());
-        }
     }
 
     /**

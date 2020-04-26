@@ -27,6 +27,7 @@ use League\CommonMark\Extension\TableOfContents\Normalizer\NormalizerStrategyInt
 use League\CommonMark\Extension\TableOfContents\Normalizer\RelativeNormalizerStrategy;
 use League\CommonMark\Node\Block\Document;
 use League\CommonMark\Node\Block\Paragraph;
+use League\CommonMark\Node\StringContainerHelper;
 
 final class TableOfContentsBuilder implements ConfigurationAwareInterface
 {
@@ -69,7 +70,7 @@ final class TableOfContentsBuilder implements ConfigurationAwareInterface
             $firstHeading = $firstHeading ?? $heading;
 
             // Create the new link
-            $link = new Link('#' . $headingLink->getSlug(), $heading->getStringContent());
+            $link = new Link('#' . $headingLink->getSlug(), StringContainerHelper::getChildText($heading));
             $paragraph = new Paragraph();
             $paragraph->appendChild($link);
 

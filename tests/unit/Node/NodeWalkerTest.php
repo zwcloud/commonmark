@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 
 class NodeWalkerTest extends TestCase
 {
-    public function testWalkEmptyContainerNode()
+    public function testWalkEmptyBlockNode()
     {
         $node = new Document();
         $walker = $node->walker();
@@ -41,7 +41,7 @@ class NodeWalkerTest extends TestCase
         $this->assertNull($event);
     }
 
-    public function testWalkEmptyNonContainerNode()
+    public function testWalkEmptyInlineNode()
     {
         $node = new Text();
         $walker = $node->walker();

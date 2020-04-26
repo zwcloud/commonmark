@@ -19,8 +19,8 @@ use League\CommonMark\Environment\Environment;
 use League\CommonMark\Environment\EnvironmentInterface;
 use League\CommonMark\Parser\DocParser;
 use League\CommonMark\Parser\DocParserInterface;
-use League\CommonMark\Renderer\NodeRendererInterface;
 use League\CommonMark\Renderer\HtmlRenderer;
+use League\CommonMark\Renderer\NodeRendererInterface;
 
 /**
  * Converts CommonMark-compatible Markdown to HTML.

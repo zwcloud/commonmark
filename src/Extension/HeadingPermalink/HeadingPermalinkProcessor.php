@@ -85,7 +85,7 @@ final class HeadingPermalinkProcessor implements ConfigurationAwareInterface
         $walker = $node->walker();
         while ($event = $walker->next()) {
             if ($event->isEntering() && (($child = $event->getNode()) instanceof Text || $child instanceof Code)) {
-                $text .= $child->getContent();
+                $text .= $child->getLiteral();
             }
         }
 
